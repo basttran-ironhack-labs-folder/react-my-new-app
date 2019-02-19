@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Header from "./components/Header.js";
+import AnimalList from "./components/AnimalList.js";
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <h2>App Component</h2>
+        <AnimalList />
 
         <footer>
           <p>Made with EPINEPHRINE @ Ironhack</p>
