@@ -82,18 +82,29 @@ class MovieList extends Component {
     // setState({ animalArray: animals })
     this.setState({ movieArray: movies });
   }
+
   toggleOscarFilter() {
     // update the array
     const currentShow = this.state.showOscarFilmsOnly;
     this.setState({ showOscarFilmsOnly: !currentShow });
   }
+
+  addNewMovie(movieObject) {
+    const movies = this.state.movieArray;
+    // update the array (add at the beginning so we don't need to scroll for feedback)
+    movies.unshift(movieObject);
+
+    // save the new array in the state to render the component again
+    this.setState({ movieArray: movies });
+  }
+
   render() {
     const { movieArray, showOscarFilmsOnly } = this.state;
     return (
       <section className="MovieList">
         <h2>Movie List Example</h2>
-
-        <AddMovie />
+        {/* send our addNewMovie() method as a PROP named movieSubmit */}
+        <AddMovie movieSubmit={movieObject => this.addNewMovie(movieObject)} />
         <button onClick={() => this.toggleOscarFilter()}>
           Show {showOscarFilmsOnly ? "All Films" : "Oscar Winners Only"}
         </button>

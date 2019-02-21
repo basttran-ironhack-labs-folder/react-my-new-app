@@ -16,25 +16,46 @@ class AddMovie extends Component {
     };
   }
 
-  synchronizedId(event) {
-    console.log(event.target);
-    this.setState({ _id: event.target.value });
+  genericOnChange(event) {
+    // event.target is the <input> tag the onChange is linked to
+    const { value, name } = event.target;
+    // value is the text inside the <input> tag
+    // name is the <input> tag's name attribute
+    // use the variable "name" to set the key of the object
+    console.log(value, name);
+    this.setState({ [name]: value });
   }
 
-  synchronizedTitle(event) {
-    console.log(event.target);
-    this.setState({ title: event.target.value });
+  handleSubmit(event) {
+    // prevent the default page refresh you get when you submit a form
+    event.preventDefault();
+
+    this.props.movieSubmit(this.state);
+    // clear the form by setting the state back to initial value
+    // (REMEMBER to use SET STATE)
+    this.setState({
+      _id: "",
+      title: "",
+      director: "",
+      imdbRating: "",
+      hasOscars: false
+    });
   }
 
   render() {
     return (
       <section className="AddMovie">
         <h2>Add a Movie</h2>
-        <form>
+        {/* NO action and method on React forms
+          (use an onSubmit event instead to handle the submission) */}
+        <form onSubmit={event => this.handleSubmit(event)}>
           <label>
             ID:
             <input
-              onChange={event => this.synchronizedId(event)}
+              // capture what is typed and keep it synchronized
+              onChange={event => this.genericOnChange(event)}
+              // value sets initial text and allows us to reset the text
+              value={this.state._id}
               type="text"
               name="_id"
               placeholder="11k"
@@ -43,7 +64,8 @@ class AddMovie extends Component {
           <label>
             Title:
             <input
-              onChange={event => this.synchronizedTitle(event)}
+              onChange={event => this.genericOnChange(event)}
+              value={this.state.title}
               type="text"
               name="title"
               placeholder="Titanic"
@@ -51,15 +73,25 @@ class AddMovie extends Component {
           </label>
           <label>
             Director:
-            <input type="text" name="director" placeholder="James Cameron" />
+            <input
+              onChange={event => this.genericOnChange(event)}
+              value={this.state.director}
+              type="text"
+              name="director"
+              placeholder="James Cameron"
+            />
           </label>
           <label>
             IMDB Rating:
-            <input type="number" name="imdbRating" placeholder="9" />
+            <input
+              onChange={event => this.genericOnChange(event)}
+              value={this.state.imdbRating}
+              type="number"
+              name="imdbRating"
+              placeholder="9"
+            />
           </label>
-          <button onClick={() => this.toggleOscarFilter()}>
-            Save This Movie
-          </button>
+          <button>Save This Movie</button>
         </form>
       </section>
     );
